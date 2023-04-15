@@ -17,8 +17,21 @@ contract Transactions {
 
     TransferStruct[] transactions;
 
-     
+    function addToBlockchain(address payable reciever, uint amount, string memory message, string memory keyword) public {
+        transactionCounter += 1;
+        // msg is available in all functions called inside blockchain
+        transactions.push(TransferStruct(msg.sender, reciever, amount, message, block.timestamp, keyword));
+        emit Transfer(msg.sender, reciever, amount, message, block.timestamp, keyword);
 
+    }
+
+    function getAllTransactions() public view returns (TransferStruct[] memory) {
+        return transactions;
+    }
+
+    function getTransactionCount() public view returns (uint256){
+        // return transactionCount
+        return transactionCounter;
+    }
 
 }
-
