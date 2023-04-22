@@ -9,26 +9,31 @@ const commonStyles =
   "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-600 text-sm font-light text-white";
 
 const Input = ({ placeholder, name, type, value, handleChange }) => {
-  const { value1 } = useContext(TransactionContext);
-
-  console.log(value1);
-
   return (
     <input
       placeholder={placeholder}
       type={type}
       step="0.0001"
       value={value}
-      onChange={() => handleChange(e, name)}
+      onChange={(e) => handleChange(e, name)}
       className="my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm white-glassmorphism"
     />
   );
 };
 
 function Welcome() {
-  const connectWallet = () => {};
+  const { connectWallet, currentAccount, formData, handleChange, sendTransaction, isLoading } =
+    useContext(TransactionContext);
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    const { addressTo, amount, keyword, message } = formData;
+    console.log(addressTo, amount, keyword, message);
+    e.preventDefault();
+
+    if ((!addressTo || !amount || !keyword, !message)) return;
+
+    sendTransaction();
+  };
 
   return (
     <div className="flex w-full justify-center items-center">
@@ -40,13 +45,15 @@ function Welcome() {
           <p className="text-left mt-3 text-white font-light md:w-9/12 w-11/12 text-base">
             Explore the crypto world. Buy and sell cryptocurrencies all across the world
           </p>
-          <button
-            className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"
-            type="button"
-            onClick={connectWallet}
-          >
-            <span className="text-white text-base font-semibold">Connect Wallet</span>
-          </button>
+          {!currentAccount && (
+            <button
+              className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"
+              type="button"
+              onClick={connectWallet}
+            >
+              <span className="text-white text-base font-semibold">Connect Wallet</span>
+            </button>
+          )}
           <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">
             <div className={`rounded-tl-2xl ${commonStyles}`}>Reliability</div>
             <div className={`${commonStyles}`}>Security</div>
@@ -67,18 +74,38 @@ function Welcome() {
               </div>
               <div>
                 <p className="text-white font-light text-sm">Address</p>
-                <p className="text-white font-semibold text-lg mt-1">Etherium</p>
+                <p className="text-white font-semibold text-lg mt-1">Poylgon</p>
               </div>
             </div>
           </div>
 
           <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
-            <Input placeholder="Address To" name="addressTo" type="text" handleChange={() => {}} />
-            <Input placeholder="Amount (ETH)" name="amount" type="number" handleChange={() => {}} />
-            <Input placeholder="Keyword (Gif)" name="keyword" type="text" handleChange={() => {}} />
-            <Input placeholder="Enter Message" name="message" type="text" handleChange={() => {}} />
+            <Input
+              placeholder="Address To"
+              name="addressTo"
+              type="text"
+              handleChange={handleChange}
+            />
+            <Input
+              placeholder="Amount (ETH)"
+              name="amount"
+              type="number"
+              handleChange={handleChange}
+            />
+            <Input
+              placeholder="Keyword (Gif)"
+              name="keyword"
+              type="text"
+              handleChange={handleChange}
+            />
+            <Input
+              placeholder="Enter Message"
+              name="message"
+              type="text"
+              handleChange={handleChange}
+            />
             <div className="h-[1px] w-full bg-gray-500  my-2" />
-            {false ? (
+            {isLoading ? (
               <Loader />
             ) : (
               <button
