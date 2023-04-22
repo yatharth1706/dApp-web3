@@ -21,7 +21,7 @@ const TransactionsCard = ({ addressTo, addressFrom, timestamp, message, keyword,
       <div className="flex flex-col items-center w-full mt-3">
         <div className="display-flex justify-start w-full mb-6 p-2">
           <a
-            href={`https://ropsten.etherscan.io/address/${addressFrom}`}
+            href={`https://polygonscan.com/address/${addressFrom}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -29,17 +29,13 @@ const TransactionsCard = ({ addressTo, addressFrom, timestamp, message, keyword,
               <span className=" text-sky-500">From:</span> {shortenAddress(addressFrom)}
             </p>
           </a>
-          <a
-            href={`https://ropsten.etherscan.io/address/${addressTo}`}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={`https://polygonscan.com/address/${addressTo}`} target="_blank" rel="noreferrer">
             <p className="text-white text-base">
               <span className=" text-sky-500">To:</span> {shortenAddress(addressTo)}
             </p>
           </a>
           <p className="text-white text-base">
-            <span className=" text-sky-500">Amount: </span> {amount} ETH
+            <span className=" text-sky-500">Amount: </span> {amount} MATIC
           </p>
           {message && (
             <>
